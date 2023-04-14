@@ -1,26 +1,24 @@
-import fetch from 'node-fetch';
+const nodeFetch = require('node-fetch');
+const fs = require('fs');
 
-// Функція для отримання JSON з URL
-async function fetchJson(url: string): Promise<any> {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(
-      `Failed to fetch JSON from ${url}: ${response.status} ${response.statusText}`
-    );
-  }
-  return await response.json();
-}
-
-// Приклад використання функції fetchJson
-async function main() {
+async function fetchJsonAndSaveToFile(url: string, filename: string) {
   try {
-    const url = 'https://jsonplaceholder.typicode.com/posts/1';
-    const json = await fetchJson(url);
-    console.log('JSON:', json);
+    // Виконуємо запит на отримання JSON з вказаного URL
+    const response = await nodeFetch(url);
+    const jsonData = await response.json();
+
+    // Зберігаємо отриманий JSON в файл
+    fs.writeFileSync(filename, JSON.stringify(jsonData, null, 2));
+    console.log(`JSON з URL ${url} був збережений у файл ${filename}.`);
   } catch (error) {
-    console.error('Error:', error);
+    console.error(`Помилка при отриманні JSON з URL ${url}:`, error);
+    process.exit(1);
   }
 }
 
-// Виклик основної функції
-main();
+// Отримання аргументів командного рядка
+const url = process.argv[2];
+const filename = process.argv[3];
+
+// Викликаємо функцію для отримання JSON та збереження в файл
+fetchJsonAndSaveToFile(url, filename);

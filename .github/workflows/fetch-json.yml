@@ -1,23 +1,10 @@
 name: Fetch JSON and Save to File
 
-on: [push]
-
-jobs:
-  fetch-json:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Fetch JSON and Save to File
-      run: node fetch-json.js ${{ inputs.url }} ${{ inputs.filename }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
     inputs:
       url:
         description: 'URL to fetch JSON from'
@@ -25,3 +12,17 @@ jobs:
       filename:
         description: 'Filename to save the fetched JSON'
         required: true
+
+jobs:
+  fetch-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: ArturRubets/Github-Actions@v1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Fetch JSON and Save to File
+        run: node fetch-json.ts ${{ inputs.url }} ${{ inputs.filename }}
