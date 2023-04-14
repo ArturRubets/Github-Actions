@@ -2,9 +2,9 @@
   "name": "github-actions",
   "version": "1.0.0",
   "description": "Example project using Typescript and GitHub Actions",
-  "main": "index.js",
+  "main": "fetch-json.ts",
   "scripts": {
-    "start": "node index.js"
+    "start": "node fetch-json.ts"
   },
   "dependencies": {
     "node-fetch": "^2.6.4"
