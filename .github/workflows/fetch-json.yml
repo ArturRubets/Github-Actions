@@ -13,8 +13,8 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
-      
+        uses: actions/checkout@v3
+
       - name: Install dependencies
         run: npm ci
 
@@ -23,9 +23,9 @@ jobs:
 
       - name: Execute fetch-json.js
         run: node fetch-json.js ${{ inputs.url }}
-        
-      - name: Save JSON to file
-        run: |
-          mkdir -p results
-          mv output.json results/output.json
-          echo "::set-output name=filepath::results/output.json"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: results/
