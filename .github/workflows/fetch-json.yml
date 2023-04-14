@@ -1,28 +1,27 @@
 name: Fetch JSON and Save to File
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   fetch-json:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Install dependencies
-        run: npm ci
+    - name: Install dependencies
+      run: npm ci
 
-      - name: Fetch JSON and Save to File
-        run: node fetchJson.ts
+    - name: Fetch JSON and Save to File
+      run: node fetch-json.js ${{ inputs.url }} ${{ inputs.filename }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit and push changes
-        run: |
-          git add .
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
-          git commit -m "Add fetched JSON to file"
-          git push
+    inputs:
+      url:
+        description: 'URL to fetch JSON from'
+        required: true
+      filename:
+        description: 'Filename to save the fetched JSON'
+        required: true
