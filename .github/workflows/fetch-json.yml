@@ -22,7 +22,7 @@ jobs:
         uses: ArturRubets/Github-Actions@v1
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Fetch JSON and Save to File
         run: node fetch-json.ts ${{ inputs.url }} ${{ inputs.filename }}
