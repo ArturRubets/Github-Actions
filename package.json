@@ -12,5 +12,6 @@
   "devDependencies": {
     "@types/node": "^18.15.11",
     "@types/node-fetch": "^2.6.3"
-  }
+  },
+  "type": "module"
 }
