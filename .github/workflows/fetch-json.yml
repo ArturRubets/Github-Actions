@@ -24,8 +24,8 @@ jobs:
       - name: Execute fetch-json.js
         run: node fetch-json.js ${{ inputs.url }}
         
-      - name: Save results
+      - name: Move output.json
         run: |
-          mkdir -p ${{ github.workspace }}/results
-          mv output.json ${{ github.workspace }}/results/
-          echo "::set-output name=filepath::results/output.json"
+          mkdir -p /home/runner/work/Github-Actions/Github-Actions/results
+          mv output.json /home/runner/work/Github-Actions/Github-Actions/results/
+          echo "results/output.json" >> $GITHUB_ENV
