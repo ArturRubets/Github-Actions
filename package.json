@@ -1,7 +1,7 @@
 {
   "name": "github-actions",
   "version": "1.0.0",
-  "description": "Example project using Typescript and GitHub Actions",
+  "description": "Приклад проекту з використанням Typescript та GitHub Actions",
   "main": "fetch-json.ts",
   "scripts": {
     "start": "node fetch-json.ts"

@@ -1,24 +1,18 @@
-const nodeFetch = require('node-fetch');
-const fs = require('fs');
+import fetch from 'node-fetch';
+import fs from 'fs';
 
-async function fetchJsonAndSaveToFile(url: string, filename: string) {
-  try {
-    // Виконуємо запит на отримання JSON з вказаного URL
-    const response = await nodeFetch(url);
-    const jsonData = await response.json();
-
-    // Зберігаємо отриманий JSON в файл
-    fs.writeFileSync(filename, JSON.stringify(jsonData, null, 2));
-    console.log(`JSON з URL ${url} був збережений у файл ${filename}.`);
-  } catch (error) {
-    console.error(`Помилка при отриманні JSON з URL ${url}:`, error);
-    process.exit(1);
-  }
-}
-
-// Отримання аргументів командного рядка
+// Отримання URL з вхідного параметру
 const url = process.argv[2];
-const filename = process.argv[3];
 
-// Викликаємо функцію для отримання JSON та збереження в файл
-fetchJsonAndSaveToFile(url, filename);
+// Виконання HTTP-запиту для отримання JSON
+fetch(url)
+  .then((response) => response.json())
+  .then((data) => {
+    // Збереження JSON в файл
+    fs.writeFileSync('output.json', JSON.stringify(data, null, 2));
+    console.log('JSON успішно отримано та збережено в файл output.json');
+  })
+  .catch((error) => {
+    console.error('Помилка при отриманні JSON:', error);
+    process.exit(1);
+  });

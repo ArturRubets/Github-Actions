@@ -1,16 +1,10 @@
-name: Fetch JSON and Save to File
+name: Fetch JSON
 
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on:
   workflow_dispatch:
-    # Inputs the workflow accepts.
     inputs:
       url:
         description: 'URL to fetch JSON from'
-        required: true
-      filename:
-        description: 'Filename to save the fetched JSON'
         required: true
 
 jobs:
@@ -19,10 +13,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: ArturRubets/Github-Actions@v1
-
+        uses: actions/checkout@v2
+      
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Fetch JSON and Save to File
-        run: node fetch-json.ts ${{ inputs.url }} ${{ inputs.filename }}
+      - name: Run Typescript
+        run: npx tsc
+
+      - name: Execute fetch-json.ts
+        run: node fetch-json.ts ${{ inputs.url }}
+        
+      - name: Save results
+        run: |
+          mkdir -p ${{ github.workspace }}/results
+          mv output.json ${{ github.workspace }}/results/
+          echo "::set-output name=filepath::results/output.json"
