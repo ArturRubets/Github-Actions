@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import fs from 'fs';
+import * as fs from 'fs';
 
 // Отримання URL з вхідного параметру
 const url = process.argv[2];
