@@ -8,7 +8,7 @@ const url = process.argv[2];
 fetch(url)
   .then((response) => response.json())
   .then((data) => {
-    // Збереження JSON в файл
+    // Збереження JSON в файл!
     fs.writeFileSync('output.json', JSON.stringify(data, null, 2));
     console.log('JSON успішно отримано та збережено в файл output.json');
   })
