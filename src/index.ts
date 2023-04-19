@@ -2,15 +2,16 @@ import * as core from '@actions/core';
 import { client, v1 } from '@datadog/datadog-api-client';
 import { BaseServerConfiguration } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-common';
 import { ConfigurationParameters } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-common/configuration';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const apiKey: string = process.env.API_KEY ?? '';
-const appKey: string = process.env.APP_KEY ?? '';
-const baseServerUrl: string = process.env.BASE_SERVER_URL ?? '';
+const [dashBoardUrl, apiKey, appKey, baseServerUrl]: (string | undefined)[] =
+  process.argv.slice(2);
 
 const checkEnvironmentParams = (): void => {
+  if (!dashBoardUrl) {
+    core.setFailed('DashBoard url is missing');
+    process.exit(1);
+  }
+
   if (!apiKey) {
     core.setFailed('API key is missing');
     process.exit(1);
@@ -28,10 +29,8 @@ const checkEnvironmentParams = (): void => {
 };
 
 const getDashboardId = (): string => {
-  // Getting the url from the input parameter
-  const url: string = process.argv[2];
   const pattern: RegExp = /\/dashboard\/([a-z0-9]{3}-){2}[a-z0-9]{3}\?/;
-  const match: RegExpMatchArray | null = url.match(pattern);
+  const match: RegExpMatchArray | null = dashBoardUrl.match(pattern);
   if (match && match[0]) {
     return match[0].replace('/dashboard/', '').replace('?', '');
   } else {
@@ -40,11 +39,7 @@ const getDashboardId = (): string => {
   }
 };
 
-const handleDatadog = (
-  apiKey: string,
-  appKey: string,
-  baseServerUrl: string
-): void => {
+const handleDatadog = (dashboardId: string): void => {
   const configurationOpts: ConfigurationParameters = {
     baseServer: new BaseServerConfiguration(baseServerUrl, {}),
     authMethods: {
@@ -56,7 +51,6 @@ const handleDatadog = (
     client.createConfiguration(configurationOpts);
 
   const apiInstance: v1.DashboardsApi = new v1.DashboardsApi(configuration);
-  const dashboardId: string = getDashboardId();
   const params: v1.DashboardsApiGetDashboardRequest = {
     dashboardId,
   };
@@ -72,4 +66,6 @@ const handleDatadog = (
 };
 
 checkEnvironmentParams();
-handleDatadog(apiKey, appKey, baseServerUrl);
+
+const dashboardId: string = getDashboardId();
+handleDatadog(dashboardId);
