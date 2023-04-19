@@ -1,8 +1,4 @@
-/**
- * Get a dashboard returns "OK" response
- */
-
-import * as datadog from '@datadog/datadog-api-client';
+import { client, v1 } from '@datadog/datadog-api-client';
 
 const getDashboardId = (): string => {
   // Getting the url from the input parameter
@@ -17,22 +13,19 @@ const getDashboardId = (): string => {
   }
 };
 
-const configuration: datadog.client.Configuration =
-  datadog.client.createConfiguration();
-const apiInstance: datadog.v1.DashboardsApi = new datadog.v1.DashboardsApi(
-  configuration
-);
+const configuration: client.Configuration = client.createConfiguration();
+const apiInstance: v1.DashboardsApi = new v1.DashboardsApi(configuration);
 
 // there is a valid "dashboard" in the system
 const dashboardId: string = getDashboardId();
 
-const params: datadog.v1.DashboardsApiGetDashboardRequest = {
+const params: v1.DashboardsApiGetDashboardRequest = {
   dashboardId,
 };
 
 apiInstance
   .getDashboard(params)
-  .then((data: datadog.v1.Dashboard) => {
+  .then((data: v1.Dashboard) => {
     console.log(
       'API called successfully. Returned data: ' + JSON.stringify(data)
     );

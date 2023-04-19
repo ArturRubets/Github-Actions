@@ -1,14 +1,14 @@
-name: Fetch JSON
+name: Handle Datadog
 
 on:
   workflow_dispatch:
     inputs:
       url:
-        description: 'URL to fetch JSON from'
+        description: 'URL from datadog'
         required: true
 
 jobs:
-  fetch-json:
+  handle-datadog:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +19,7 @@ jobs:
         run: npm ci
 
       - name: Run Typescript
-        run: npx tsc fetch-json.ts
+        run: npx tsc
 
-      - name: Execute fetch-json.js
-        run: node fetch-json.js ${{ inputs.url }}
+      - name: Execute dist/index.js
+        run: node dist/index.js ${{ inputs.url }}

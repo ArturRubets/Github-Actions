@@ -1,19 +1,15 @@
 {
   "name": "github-actions",
   "version": "1.0.0",
-  "description": "Приклад проекту з використанням Typescript та GitHub Actions",
+  "description": "An example project using Typescript and GitHub Actions",
   "main": "fetch-json.ts",
   "scripts": {
     "start": "node fetch-json.ts"
   },
   "dependencies": {
-    "@datadog/datadog-api-client": "^1.12.0",
-    "node-fetch": "^2.6.4"
+    "@datadog/datadog-api-client": "^1.12.0"
   },
   "devDependencies": {
-    "@types/form-data": "^2.5.0",
-    "@types/node": "^18.15.11",
-    "@types/node-fetch": "^2.6.3",
     "typescript": "^5.0.4"
   }
 }
