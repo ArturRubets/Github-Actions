@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import { client, v1 } from '@datadog/datadog-api-client';
 import { BaseServerConfiguration } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-common';
 import { ConfigurationParameters } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-common/configuration';
@@ -11,15 +12,18 @@ const baseServerUrl: string = process.env.BASE_SERVER_URL ?? '';
 
 const checkEnvironmentParams = (): void => {
   if (!apiKey) {
-    throw new Error('API key is missing');
+    core.setFailed('API key is missing');
+    process.exit(1);
   }
 
   if (!appKey) {
-    throw new Error('APP key is missing');
+    core.setFailed('APP key is missing');
+    process.exit(1);
   }
 
   if (!baseServerUrl) {
-    throw new Error('Base Server Url is missing');
+    core.setFailed('Base Server Url is missing');
+    process.exit(1);
   }
 };
 
