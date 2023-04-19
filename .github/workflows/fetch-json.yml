@@ -23,9 +23,3 @@ jobs:
 
       - name: Execute fetch-json.js
         run: node fetch-json.js ${{ inputs.url }}
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: my-artifact
-          path: results/

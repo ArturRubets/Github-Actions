@@ -1,18 +1,12 @@
-import fetch from 'node-fetch';
-import * as fs from 'fs';
-
 // Отримання URL з вхідного параметру
 const url = process.argv[2];
+console.log(url);
 
-// Виконання HTTP-запиту для отримання JSON
-fetch(url)
-  .then((response) => response.json())
-  .then((data) => {
-    // Збереження JSON в файл
-    fs.writeFileSync('output.json', JSON.stringify(data, null, 2));
-    console.log('JSON успішно отримано та збережено в файл output.json');
-  })
-  .catch((error) => {
-    console.error('Помилка при отриманні JSON:', error);
-    process.exit(1);
-  });
+const pattern = /\/dashboard\/([a-z0-9]{3}-){2}[a-z0-9]{3}\?/;
+const match = url.match(pattern);
+if (match && match[1]) {
+  const dashboardId = match[0].replace('/dashboard/', '').replace('?', '');
+  console.log(dashboardId);
+} else {
+  console.error('Помилка: Не вдалося знайти ідентифікатор панелі');
+}
