@@ -22,4 +22,8 @@ jobs:
         run: npx tsc
 
       - name: Execute dist/index.js
-        run: node dist/index.js ${{ inputs.url }} ${{ secrets.API_KEY }} ${{ secrets.APP_KEY }} ${{ secrets.BASE_SERVER_URL }}
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          APP_KEY: ${{ secrets.APP_KEY }}
+          BASE_SERVER_URL: ${{ secrets.BASE_SERVER_URL }}
+        run: node dist/index.js ${{ inputs.url }}
