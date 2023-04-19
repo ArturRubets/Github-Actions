@@ -3,8 +3,6 @@ import { client, v1 } from '@datadog/datadog-api-client';
 import { BaseServerConfiguration } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-common';
 import { ConfigurationParameters } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-common/configuration';
 
-console.log(process.argv);
-
 const [dashBoardUrl, apiKey, appKey, baseServerUrl]: (string | undefined)[] =
   process.argv.slice(2);
 
