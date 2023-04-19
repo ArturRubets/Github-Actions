@@ -1,12 +1,37 @@
-// Отримання URL з вхідного параметру
-const url = process.argv[2];
-console.log(url);
+/**
+ * Get a dashboard returns "OK" response
+ */
 
-const pattern = /\/dashboard\/([a-z0-9]{3}-){2}[a-z0-9]{3}\?/;
-const match = url.match(pattern);
-if (match && match[1]) {
-  const dashboardId = match[0].replace('/dashboard/', '').replace('?', '');
-  console.log(dashboardId);
-} else {
-  console.error('Помилка: Не вдалося знайти ідентифікатор панелі');
-}
+import { client, v1 } from '@datadog/datadog-api-client';
+
+const getDashboardId = (): string => {
+  // Getting the url from the input parameter
+  const url: string = process.argv[2];
+  const pattern: RegExp = /\/dashboard\/([a-z0-9]{3}-){2}[a-z0-9]{3}\?/;
+  const match: RegExpMatchArray | null = url.match(pattern);
+  if (match && match[0]) {
+    return match[0].replace('/dashboard/', '').replace('?', '');
+  } else {
+    console.error('Error: The dashboard ID could not be found');
+    return '';
+  }
+};
+
+const configuration: client.Configuration = client.createConfiguration();
+const apiInstance: v1.DashboardsApi = new v1.DashboardsApi(configuration);
+
+// there is a valid "dashboard" in the system
+const dashboardId: string = getDashboardId();
+
+const params: v1.DashboardsApiGetDashboardRequest = {
+  dashboardId,
+};
+
+apiInstance
+  .getDashboard(params)
+  .then((data: v1.Dashboard) => {
+    console.log(
+      'API called successfully. Returned data: ' + JSON.stringify(data)
+    );
+  })
+  .catch((error: any) => console.error(error));

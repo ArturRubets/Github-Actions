@@ -7,6 +7,7 @@
     "start": "node fetch-json.ts"
   },
   "dependencies": {
+    "@datadog/datadog-api-client": "^1.12.0",
     "node-fetch": "^2.6.4"
   },
   "devDependencies": {
