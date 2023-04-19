@@ -5,9 +5,26 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const apiKey: string | undefined = process.env.API_KEY;
-const appKey: string | undefined = process.env.APP_KEY;
-const baseServerUrl: string | undefined = process.env.BASE_SERVER_URL;
+const apiKey: string = process.env.API_KEY ?? '';
+const appKey: string = process.env.APP_KEY ?? '';
+const baseServerUrl: string = process.env.BASE_SERVER_URL ?? '';
+
+const checkEnvironmentParams = (): void => {
+  if (!apiKey) {
+    console.error('API key is missing');
+    process.exit(1);
+  }
+
+  if (!appKey) {
+    console.error('APP key is missing');
+    process.exit(1);
+  }
+
+  if (!baseServerUrl) {
+    console.error('Base Server Url is missing');
+    process.exit(1);
+  }
+};
 
 const getDashboardId = (): string => {
   // Getting the url from the input parameter
@@ -26,7 +43,7 @@ const handleDatadog = (
   apiKey: string,
   appKey: string,
   baseServerUrl: string
-) => {
+): void => {
   const configurationOpts: ConfigurationParameters = {
     baseServer: new BaseServerConfiguration(baseServerUrl, {}),
     authMethods: {
@@ -53,8 +70,5 @@ const handleDatadog = (
     .catch((error: any) => console.error(error));
 };
 
-if (apiKey && appKey && baseServerUrl) {
-  handleDatadog(apiKey, appKey, baseServerUrl);
-} else {
-  console.error('Not all credentials are provided');
-}
+checkEnvironmentParams();
+handleDatadog(apiKey, appKey, baseServerUrl);
