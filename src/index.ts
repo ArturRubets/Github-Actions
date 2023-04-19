@@ -15,10 +15,7 @@ const getDashboardId = (): string => {
 
 const configuration: client.Configuration = client.createConfiguration();
 const apiInstance: v1.DashboardsApi = new v1.DashboardsApi(configuration);
-
-// there is a valid "dashboard" in the system
 const dashboardId: string = getDashboardId();
-
 const params: v1.DashboardsApiGetDashboardRequest = {
   dashboardId,
 };
