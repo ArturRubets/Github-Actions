@@ -6,6 +6,8 @@ import { ConfigurationParameters } from '@datadog/datadog-api-client/dist/packag
 const [dashBoardUrl, apiKey, appKey, baseServerUrl]: (string | undefined)[] =
   process.argv.slice(2);
 
+console.log(dashBoardUrl, apiKey, appKey, baseServerUrl);
+
 const checkEnvironmentParams = (): void => {
   if (!dashBoardUrl) {
     core.setFailed('DashBoard url is missing');
